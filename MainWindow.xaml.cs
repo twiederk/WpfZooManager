@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Data.Odbc;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -19,6 +21,30 @@ namespace WpfZooManager
         public MainWindow()
         {
             InitializeComponent();
+
+            // Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Daten\sourcecode\csharp\WpfToDoApp\WpfToDoDB.accdb
+            string connectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)}; Dbq=C:\\Daten\\sourcecode\\csharp\\WpfToDoApp\\WpfToDoDB.accdb; Uid=Admin; Pwd=;";
+
+            using (OdbcConnection connection = new OdbcConnection(connectionString))
+            {
+
+                string query = "SELECT id, location FROM Zoo"; 
+                OdbcCommand command = new OdbcCommand(query, connection);
+                connection.Open();
+                
+                OdbcDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    TextBlock todoItem = new TextBlock
+                    {
+                        Text = reader.GetString(1),
+                        Margin = new Thickness(10)
+                    };
+                    ZooList.Children.Add(todoItem);
+
+                }
+
+            }
         }
     }
 }

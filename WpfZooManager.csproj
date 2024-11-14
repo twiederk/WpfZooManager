@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.Odbc" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="WpfToDoDB.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
