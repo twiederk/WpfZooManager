@@ -33,17 +33,23 @@ namespace WpfZooManager
 
         private void ShowZoos()
         {
-            string query = "SELECT * FROM Zoo";
-            OdbcDataAdapter odbcDataAdapter = new OdbcDataAdapter(query, odbcConnection);
+            try
+            {
+                string query = "SELECT * FROM Zoo";
+                OdbcDataAdapter odbcDataAdapter = new OdbcDataAdapter(query, odbcConnection);
 
-            using (odbcDataAdapter)
-            { 
-                DataTable zooTable = new DataTable();
-                odbcDataAdapter.Fill(zooTable);
+                using (odbcDataAdapter)
+                {
+                    DataTable zooTable = new DataTable();
+                    odbcDataAdapter.Fill(zooTable);
 
-                listZoos.DisplayMemberPath = "Location";
-                listZoos.SelectedValuePath = "Id";
-                listZoos.ItemsSource = zooTable.DefaultView;
+                    listZoos.DisplayMemberPath = "Location";
+                    listZoos.SelectedValuePath = "Id";
+                    listZoos.ItemsSource = zooTable.DefaultView;
+                }
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error");
             }
 
         }
