@@ -44,7 +44,7 @@ namespace WpfZooManager
                     odbcDataAdapter.Fill(zooTable);
 
                     listZoos.DisplayMemberPath = "Location";
-                    listZoos.SelectedValuePath = "Id";
+                    listZoos.SelectedValuePath = "ID";
                     listZoos.ItemsSource = zooTable.DefaultView;
                 }
             } catch (Exception e)
@@ -52,6 +52,48 @@ namespace WpfZooManager
                 MessageBox.Show(e.Message, "Error");
             }
 
+        }
+
+        private void ShowAssociatedAnimals()
+        {
+            //try
+            {
+
+                if (listZoos.SelectedValue == null)
+                {
+                    MessageBox.Show("Please select a zoo.", "Error");
+                    return;
+                }
+
+                string query = "SELECT * FROM Animal a INNER JOIN ZooAnimal za ON a.ID = za.AnimalId WHERE za.ZooId = ?";
+
+                OdbcCommand odbcCommand = new OdbcCommand(query, odbcConnection);
+                OdbcDataAdapter odbcDataAdapter = new OdbcDataAdapter(odbcCommand);
+
+                using (odbcDataAdapter)
+                {
+                    odbcCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
+
+                    DataTable animalTable = new DataTable();
+                    odbcDataAdapter.Fill(animalTable);
+
+                    listAssociatedAnimals.DisplayMemberPath = "AnimalName";
+                    listAssociatedAnimals.SelectedValuePath = "ID";
+                    listAssociatedAnimals.ItemsSource = animalTable.DefaultView;
+                }
+            }
+            /*
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error");
+            }
+            */
+
+        }
+
+        private void listZoos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowAssociatedAnimals();
         }
     }
 }
