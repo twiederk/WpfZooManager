@@ -148,6 +148,24 @@ namespace WpfZooManager
             }
         }
 
+        private void AddZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MessageBox.Show("AddZoo_Click", "Error");
+                string query = "INSERT INTO zoo (location) VALUES (?)";
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@location", myTextBox.Text);
+                sqliteCommand.ExecuteNonQuery();
+                ShowZoos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+    
+
         private void AddAnimal_Click(object sender, RoutedEventArgs e)
         {
             try
