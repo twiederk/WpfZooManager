@@ -204,6 +204,24 @@ namespace WpfZooManager
                 MessageBox.Show(ex.Message, "Error");
             }
         }
+
+
+        private void UpdateZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "UPDATE zoo SET location = ? WHERE id = ?";
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@location", myTextBox.Text);
+                sqliteCommand.Parameters.AddWithValue("@id", listZoos.SelectedValue);
+                sqliteCommand.ExecuteNonQuery();
+                ShowZoos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
     }
 
 }
