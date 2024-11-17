@@ -68,7 +68,7 @@ namespace WpfZooManager
                     return;
                 }
 
-                string query = "SELECT * FROM animal a INNER JOIN zoo_animal za ON a.ID = za.id WHERE za.id = ?";
+                string query = "SELECT za.id, a.name FROM animal a, zoo_animal za WHERE a.id = za.animal_id AND za.zoo_id = ?";
 
                 SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
                 SQLiteDataAdapter sqliteDataAdapter = new SQLiteDataAdapter(sqliteCommand);
