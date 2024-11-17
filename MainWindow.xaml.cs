@@ -109,7 +109,31 @@ namespace WpfZooManager
 
         private void listZoos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (listZoos.SelectedItem != null)
+            {
+                DataRowView selectedRow = (DataRowView)listZoos.SelectedItem;
+                myTextBox.Text = selectedRow["location"].ToString();
+            }
+            else
+            {
+                myTextBox.Text = string.Empty;
+            }
             ShowAssociatedAnimals();
+
+        }
+
+        private void listAnimals_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listAnimals.SelectedItem != null)
+            {
+                DataRowView selectedRow = (DataRowView)listAnimals.SelectedItem;
+                myTextBox.Text = selectedRow["name"].ToString();
+            }
+            else
+            {
+                myTextBox.Text = string.Empty;
+            }
+
         }
 
         private void DeleteZoo_Click(object sender, RoutedEventArgs e)
@@ -152,7 +176,6 @@ namespace WpfZooManager
         {
             try
             {
-                MessageBox.Show("AddZoo_Click", "Error");
                 string query = "INSERT INTO zoo (location) VALUES (?)";
                 SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
                 sqliteCommand.Parameters.AddWithValue("@location", myTextBox.Text);
