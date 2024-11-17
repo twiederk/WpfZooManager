@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SQLite;
 
 
 namespace WpfZooManager
@@ -20,13 +21,15 @@ namespace WpfZooManager
     public partial class MainWindow : Window
     {
         OdbcConnection odbcConnection;
+        SQLiteConnection sqliteConnection;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            string connectionString = "Driver={Microsoft Access Driver (*.mdb, *.accdb)}; Dbq=C:\\Daten\\sourcecode\\csharp\\WpfZooManager\\WpfZooManagerDB.accdb; Uid=Admin; Pwd=;";
-            odbcConnection = new OdbcConnection(connectionString);
+            string connectionString = "Data Source=C:\\Daten\\sourcecode\\csharp\\WpfZooManager\\ZooManager.db";
+            sqliteConnection = new SQLiteConnection(connectionString);
+            sqliteConnection.Open();
             ShowZoos();
 
         }
@@ -35,16 +38,16 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "SELECT * FROM Zoo";
-                OdbcDataAdapter odbcDataAdapter = new OdbcDataAdapter(query, odbcConnection);
+                string query = "SELECT * FROM zoo";
+                SQLiteDataAdapter sqLiteDataAdapter = new SQLiteDataAdapter(query, sqliteConnection);
 
-                using (odbcDataAdapter)
+                using (sqLiteDataAdapter)
                 {
                     DataTable zooTable = new DataTable();
-                    odbcDataAdapter.Fill(zooTable);
+                    sqLiteDataAdapter.Fill(zooTable);
 
-                    listZoos.DisplayMemberPath = "Location";
-                    listZoos.SelectedValuePath = "ID";
+                    listZoos.DisplayMemberPath = "location";
+                    listZoos.SelectedValuePath = "id";
                     listZoos.ItemsSource = zooTable.DefaultView;
                 }
             } catch (Exception e)
@@ -65,20 +68,21 @@ namespace WpfZooManager
                     return;
                 }
 
-                string query = "SELECT * FROM Animal a INNER JOIN ZooAnimal za ON a.ID = za.AnimalId WHERE za.ZooId = ?";
+                string query = "SELECT * FROM animal a INNER JOIN zoo_animal za ON a.ID = za.id WHERE za.id = ?";
 
-                OdbcCommand odbcCommand = new OdbcCommand(query, odbcConnection);
-                OdbcDataAdapter odbcDataAdapter = new OdbcDataAdapter(odbcCommand);
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                SQLiteDataAdapter sqliteDataAdapter = new SQLiteDataAdapter(sqliteCommand);
 
-                using (odbcDataAdapter)
+
+                using (sqliteDataAdapter)
                 {
-                    odbcCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
+                    sqliteCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
 
                     DataTable animalTable = new DataTable();
-                    odbcDataAdapter.Fill(animalTable);
+                    sqliteDataAdapter.Fill(animalTable);
 
-                    listAssociatedAnimals.DisplayMemberPath = "AnimalName";
-                    listAssociatedAnimals.SelectedValuePath = "ID";
+                    listAssociatedAnimals.DisplayMemberPath = "name";
+                    listAssociatedAnimals.SelectedValuePath = "id";
                     listAssociatedAnimals.ItemsSource = animalTable.DefaultView;
                 }
             }
