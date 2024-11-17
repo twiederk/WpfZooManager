@@ -222,6 +222,23 @@ namespace WpfZooManager
                 MessageBox.Show(ex.Message, "Error");
             }
         }
+
+        private void UpdateAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "UPDATE animal SET name = ? WHERE id = ?";
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@name", myTextBox.Text);
+                sqliteCommand.Parameters.AddWithValue("@id", listAnimals.SelectedValue);
+                sqliteCommand.ExecuteNonQuery();
+                ShowAnimals();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
     }
 
 }
