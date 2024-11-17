@@ -31,6 +31,7 @@ namespace WpfZooManager
             sqliteConnection = new SQLiteConnection(connectionString);
             sqliteConnection.Open();
             ShowZoos();
+            ShowAnimals();
 
         }
 
@@ -54,12 +55,33 @@ namespace WpfZooManager
             {
                 MessageBox.Show(e.Message, "Error");
             }
+        }
 
+        private void ShowAnimals()
+        {
+            try
+            {
+                string query = "SELECT * FROM animal";
+                SQLiteDataAdapter sqLiteDataAdapter = new SQLiteDataAdapter(query, sqliteConnection);
+
+                using (sqLiteDataAdapter)
+                {
+                    DataTable animalTable = new DataTable();
+                    sqLiteDataAdapter.Fill(animalTable);
+
+                    listAnimals.DisplayMemberPath = "name";
+                    listAnimals.SelectedValuePath = "id";
+                    listAnimals.ItemsSource = animalTable.DefaultView;
+                }
+            } catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error");
+            }
         }
 
         private void ShowAssociatedAnimals()
         {
-            //try
+            try
             {
 
                 if (listZoos.SelectedValue == null)
@@ -86,12 +108,10 @@ namespace WpfZooManager
                     listAssociatedAnimals.ItemsSource = animalTable.DefaultView;
                 }
             }
-            /*
             catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error");
             }
-            */
 
         }
 

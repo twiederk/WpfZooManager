@@ -12,6 +12,9 @@
 
         <Label Content="Associated Animals List" HorizontalAlignment="Left" Margin="229,33,0,0" VerticalAlignment="Top"/>
         <ListBox Name="listAssociatedAnimals" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="229,59,344,142"/>
+        
+        <Label Content="Animals" HorizontalAlignment="Left" Margin="433,33,0,0" VerticalAlignment="Top"/>
+        <ListBox Name="listAnimals" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="433,59,140,142"/>
 
 
 
