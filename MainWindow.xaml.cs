@@ -1,15 +1,6 @@
 ﻿using System.Data;
-using System.Data.Odbc;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Data.SQLite;
 
 
@@ -20,7 +11,6 @@ namespace WpfZooManager
     /// </summary>
     public partial class MainWindow : Window
     {
-        OdbcConnection odbcConnection;
         SQLiteConnection sqliteConnection;
 
         public MainWindow()
@@ -51,7 +41,8 @@ namespace WpfZooManager
                     listZoos.SelectedValuePath = "id";
                     listZoos.ItemsSource = zooTable.DefaultView;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error");
             }
@@ -73,7 +64,8 @@ namespace WpfZooManager
                     listAnimals.SelectedValuePath = "id";
                     listAnimals.ItemsSource = animalTable.DefaultView;
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error");
             }
@@ -137,7 +129,40 @@ namespace WpfZooManager
                 MessageBox.Show(ex.Message, "Error");
             }
         }
-    }
 
+        private void DeleteAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "DELETE FROM animal WHERE id = ?";
+
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
+
+                sqliteCommand.ExecuteNonQuery();
+                ShowAnimals();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+        private void AddAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "INSERT INTO animal (name) VALUES (?)";
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@Name", myTextBox.Text);
+                sqliteCommand.ExecuteNonQuery();
+                ShowAnimals();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+    }
 
 }
