@@ -14,14 +14,15 @@
         <ListBox Name="listAssociatedAnimals" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="229,80,344,284"/>
         <ListBox Name="listAnimals" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="433,80,140,121"/>
 
-        <Button Content="Delete Zoo" HorizontalAlignment="Left" Margin="36,0,0,0" VerticalAlignment="Center" Width="152" Height="41"/>
+        <Button Content="Delete Zoo" Click="DeleteZoo_Click" HorizontalAlignment="Left" Margin="36,0,0,0" VerticalAlignment="Center" Width="152" Height="41"/>
         <Button Content="Remove Animal" HorizontalAlignment="Left" Margin="229,0,0,0" VerticalAlignment="Center" Width="152" Height="41"/>
-        <Button Content="Add Zoo" HorizontalAlignment="Left" Margin="36,317,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
-        <Button Content="Add Animal Zoo" HorizontalAlignment="Left" Margin="229,317,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
-        <Button Content="Update Zoo" HorizontalAlignment="Left" Margin="36,381,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
-        <Button Content="Update Zoo" HorizontalAlignment="Left" Margin="229,381,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
-        <Button Content="Delete Animal" HorizontalAlignment="Left" Margin="433,381,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
+        <Button Content="Add Zoo" HorizontalAlignment="Left" Margin="36,335,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
+        <Button Content="Add Animal Zoo" HorizontalAlignment="Left" Margin="229,335,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
+        <Button Content="Update Zoo" HorizontalAlignment="Left" Margin="36,392,0,0" VerticalAlignment="Top" Width="152" Height="40"/>
+        <Button Content="Update Animal" HorizontalAlignment="Left" Margin="229,392,0,0" VerticalAlignment="Top" Width="152" Height="40"/>
+        <Button Content="Delete Animal" HorizontalAlignment="Left" Margin="433,392,0,0" VerticalAlignment="Top" Width="152" Height="40"/>
         <Button Content="Add Animal to Zoo" HorizontalAlignment="Left" Margin="433,25,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
+        <TextBox HorizontalAlignment="Left" Margin="36,283,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="345" Height="47"/>
 
 
 

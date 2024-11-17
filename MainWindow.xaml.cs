@@ -86,7 +86,7 @@ namespace WpfZooManager
 
                 if (listZoos.SelectedValue == null)
                 {
-                    MessageBox.Show("Please select a zoo.", "Error");
+                    listAssociatedAnimals.ItemsSource = null;
                     return;
                 }
 
@@ -119,5 +119,25 @@ namespace WpfZooManager
         {
             ShowAssociatedAnimals();
         }
+
+        private void DeleteZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "DELETE FROM zoo WHERE id = ?";
+
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
+
+                sqliteCommand.ExecuteNonQuery();
+                ShowZoos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
     }
+
+
 }
