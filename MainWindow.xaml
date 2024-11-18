@@ -21,7 +21,7 @@
         <Button Content="Update Zoo"    Click="UpdateZoo_Click" HorizontalAlignment="Left" Margin="36,392,0,0" VerticalAlignment="Top" Width="152" Height="40"/>
         <Button Content="Update Animal" Click="UpdateAnimal_Click" HorizontalAlignment="Left" Margin="229,392,0,0" VerticalAlignment="Top" Width="152" Height="40"/>
         <Button Content="Delete Animal" Click="DeleteAnimal_Click" HorizontalAlignment="Left" Margin="433,392,0,0" VerticalAlignment="Top" Width="152" Height="40"/>
-        <Button Content="Add Animal to Zoo" HorizontalAlignment="Left" Margin="433,25,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
+        <Button Content="Add Animal to Zoo" Click="AddAnimalToZoo_Click" HorizontalAlignment="Left" Margin="433,25,0,0" VerticalAlignment="Top" Width="152" Height="41"/>
         
         <TextBox Name="myTextBox" HorizontalAlignment="Left" Margin="36,283,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="345" Height="47"/>
 

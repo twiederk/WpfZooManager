@@ -163,7 +163,7 @@ namespace WpfZooManager
                 SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
                 sqliteCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
 
-                sqliteCommand.ExecuteNonQuery();
+                sqliteCommand.ExecuteNonQuery();               
                 ShowAnimals();
             }
             catch (Exception ex)
@@ -198,6 +198,23 @@ namespace WpfZooManager
                 sqliteCommand.Parameters.AddWithValue("@Name", myTextBox.Text);
                 sqliteCommand.ExecuteNonQuery();
                 ShowAnimals();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
+        private void AddAnimalToZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "INSERT INTO zoo_animal (zoo_id, animal_id) VALUES (?, ?)";
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@zoo_id", listZoos.SelectedValue);
+                sqliteCommand.Parameters.AddWithValue("@animal_id", listAnimals.SelectedValue);
+                sqliteCommand.ExecuteNonQuery();
+                ShowAssociatedAnimals();
             }
             catch (Exception ex)
             {
