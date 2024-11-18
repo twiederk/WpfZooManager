@@ -26,6 +26,9 @@
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>WpfToDoDB.Designer.cs</LastGenOutput>
     </None>
+    <None Update="ZooManager.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

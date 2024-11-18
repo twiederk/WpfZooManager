@@ -17,7 +17,7 @@ namespace WpfZooManager
         {
             InitializeComponent();
 
-            string connectionString = "Data Source=C:\\Daten\\sourcecode\\csharp\\WpfZooManager\\ZooManager.db";
+            string connectionString = "Data Source=ZooManager.db";
             sqliteConnection = new SQLiteConnection(connectionString);
             sqliteConnection.Open();
             ShowZoos();
