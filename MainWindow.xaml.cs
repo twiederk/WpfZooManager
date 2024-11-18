@@ -205,6 +205,24 @@ namespace WpfZooManager
             }
         }
 
+        private void RemoveAnimalFromZoo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string query = "DELETE FROM zoo_animal WHERE id = ?";
+
+                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
+                sqliteCommand.Parameters.AddWithValue("@Id", listAssociatedAnimals.SelectedValue);
+
+                sqliteCommand.ExecuteNonQuery();               
+                ShowAssociatedAnimals();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+        }
+
         private void AddAnimalToZoo_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -221,6 +239,8 @@ namespace WpfZooManager
                 MessageBox.Show(ex.Message, "Error");
             }
         }
+
+
 
 
         private void UpdateZoo_Click(object sender, RoutedEventArgs e)
