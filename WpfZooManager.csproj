@@ -27,7 +27,7 @@
       <LastGenOutput>WpfToDoDB.Designer.cs</LastGenOutput>
     </None>
     <None Update="ZooManager.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
