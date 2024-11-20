@@ -6,7 +6,14 @@
         xmlns:local="clr-namespace:WpfZooManager"
         mc:Ignorable="d"
         Title="Zoo Manager" Height="500" Width="725">
+    
     <Grid>
+        <Menu>
+            <MenuItem Header="_File">
+                <MenuItem Header="_New..." Padding="0,0,0,0" Margin="0,0,0,0" Click="NewMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+
         <Label Content="Zoo List" HorizontalAlignment="Left" Margin="36,54,0,0" VerticalAlignment="Top"/>
         <ListBox Name="listZoos" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="36,80,537,267" SelectionChanged="listZoos_SelectionChanged"/>
 

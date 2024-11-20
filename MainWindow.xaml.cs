@@ -284,6 +284,11 @@ namespace WpfZooManager
                 MessageBox.Show(ex.Message, "Error");
             }
         }
+
+        private void NewMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("New Menu Item Clicked");
+        }
     }
 
 }
