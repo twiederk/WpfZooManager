@@ -168,10 +168,8 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "INSERT INTO zoo (location) VALUES (?)";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@location", myTextBox.Text);
-                sqliteCommand.ExecuteNonQuery();
+                var zoo = new Zoo { Location = myTextBox.Text };
+                zooManagerRepository.AddZoo(zoo);
                 ShowZoos();
             }
             catch (Exception ex)
@@ -185,10 +183,8 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "INSERT INTO animal (name) VALUES (?)";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@Name", myTextBox.Text);
-                sqliteCommand.ExecuteNonQuery();
+                var animal = new Animal { Name = myTextBox.Text };
+                zooManagerRepository.AddAnimal(animal);
                 ShowAnimals();
             }
             catch (Exception ex)
