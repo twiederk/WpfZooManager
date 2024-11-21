@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace WpfZooManager
 {
@@ -22,10 +23,11 @@ namespace WpfZooManager
             string connectionString = "Data Source=ZooManager.db";
             SQLiteConnection sqliteConnection = new SQLiteConnection(connectionString);
             sqliteConnection.Open();
-            collection.AddSingleton<SQLiteConnection>(sqliteConnection);
+            collection.AddSingleton(sqliteConnection);
 
             IDbConnection db = new SQLiteConnection("Data Source=ZooManager.db");
-            collection.AddSingleton<IDbConnection>(db);
+            collection.AddSingleton(db);
+            collection.AddSingleton<IZooManagerRepository, ZooManagerRepository>();
 
             var serviceProvider = collection.BuildServiceProvider();
             var mainWindow = serviceProvider.GetRequiredService<MainWindow>();

@@ -7,21 +7,17 @@ using Dapper;
 
 namespace WpfZooManager
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         SQLiteConnection sqliteConnection;
-        IDbConnection db;
+        IZooManagerRepository zooManagerRepository;
 
-
-        public MainWindow(SQLiteConnection sqliteConnection, IDbConnection db)
+        public MainWindow(SQLiteConnection sqliteConnection, IZooManagerRepository zooManagerRepository)
         {
             InitializeComponent();
 
             this.sqliteConnection = sqliteConnection;
-            this.db = db;
+            this.zooManagerRepository = zooManagerRepository;
 
             ShowZoos();
             ShowAnimals();
@@ -31,8 +27,7 @@ namespace WpfZooManager
         {
             try
             {
-                var sql = "SELECT * FROM zoo";
-                var zoos = db.Query<Zoo>(sql).ToList();
+                var zoos = zooManagerRepository.AllZoos();
 
                 listZoos.DisplayMemberPath = "Location";
                 listZoos.SelectedValuePath = "Id";
@@ -48,8 +43,7 @@ namespace WpfZooManager
         {
             try
             {
-                string sql = "SELECT * FROM animal";
-                var animals = db.Query<Animal>(sql).ToList();
+                var animals = zooManagerRepository.AllAnimals();
 
                 listAnimals.DisplayMemberPath = "Name";
                 listAnimals.SelectedValuePath = "Id";
