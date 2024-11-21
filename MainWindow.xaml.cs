@@ -51,18 +51,12 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "SELECT * FROM animal";
-                SQLiteDataAdapter sqLiteDataAdapter = new SQLiteDataAdapter(query, sqliteConnection);
+                string sql = "SELECT * FROM animal";
+                var animals = db.Query<Animal>(sql).ToList();
 
-                using (sqLiteDataAdapter)
-                {
-                    DataTable animalTable = new DataTable();
-                    sqLiteDataAdapter.Fill(animalTable);
-
-                    listAnimals.DisplayMemberPath = "name";
-                    listAnimals.SelectedValuePath = "id";
-                    listAnimals.ItemsSource = animalTable.DefaultView;
-                }
+                listAnimals.DisplayMemberPath = "Name";
+                listAnimals.SelectedValuePath = "Id";
+                listAnimals.ItemsSource = animals;
             }
             catch (Exception e)
             {
@@ -125,8 +119,8 @@ namespace WpfZooManager
         {
             if (listAnimals.SelectedItem != null)
             {
-                DataRowView selectedRow = (DataRowView)listAnimals.SelectedItem;
-                myTextBox.Text = selectedRow["name"].ToString();
+                Animal selectedAnimal = (Animal)listAnimals.SelectedItem;
+                myTextBox.Text = selectedAnimal.Name;
             }
             else
             {
