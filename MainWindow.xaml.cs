@@ -16,15 +16,12 @@ namespace WpfZooManager
         IDbConnection db;
 
 
-        public MainWindow()
+        public MainWindow(SQLiteConnection sqliteConnection, IDbConnection db)
         {
             InitializeComponent();
 
-            string connectionString = "Data Source=ZooManager.db";
-            sqliteConnection = new SQLiteConnection(connectionString);
-            sqliteConnection.Open();
-
-            db = new SQLiteConnection("Data Source=ZooManager.db");
+            this.sqliteConnection = sqliteConnection;
+            this.db = db;
 
             ShowZoos();
             ShowAnimals();
