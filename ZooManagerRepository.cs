@@ -82,11 +82,15 @@ namespace WpfZooManager
         {
             var sql = "DELETE FROM zoo WHERE Id = @Id;";
             _db.Execute(sql, zoo);
+            sql = "DELETE FROM zoo_animal WHERE zoo_id = @Id;";
+            _db.Execute(sql, zoo);
         }
         
         public void DeleteAnimal(Animal animal)
         {
             var sql = "DELETE FROM animal WHERE Id = @Id;";
+            _db.Execute(sql, animal);
+            sql = "DELETE FROM zoo_animal WHERE animal_id = @Id;";
             _db.Execute(sql, animal);
         }
     }
