@@ -66,23 +66,10 @@ namespace WpfZooManager
                     return;
                 }
 
-                string query = "SELECT za.id, a.name FROM animal a, zoo_animal za WHERE a.id = za.animal_id AND za.zoo_id = ?";
-
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                SQLiteDataAdapter sqliteDataAdapter = new SQLiteDataAdapter(sqliteCommand);
-
-
-                using (sqliteDataAdapter)
-                {
-                    sqliteCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
-
-                    DataTable animalTable = new DataTable();
-                    sqliteDataAdapter.Fill(animalTable);
-
-                    listAssociatedAnimals.DisplayMemberPath = "name";
-                    listAssociatedAnimals.SelectedValuePath = "id";
-                    listAssociatedAnimals.ItemsSource = animalTable.DefaultView;
-                }
+                List<Animal> animals = zooManagerRepository.GetAssociatedAnimals(new Zoo { Id = (int)listZoos.SelectedValue });
+                listAssociatedAnimals.DisplayMemberPath = "Name";
+                listAssociatedAnimals.SelectedValuePath = "Id";
+                listAssociatedAnimals.ItemsSource = animals;
             }
             catch (Exception e)
             {

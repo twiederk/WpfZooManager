@@ -21,6 +21,8 @@ namespace WpfZooManager
         public void DeleteZoo(Zoo zoo);
 
         public void DeleteAnimal(Animal animal);
+
+        public List<Animal> GetAssociatedAnimals(Zoo zoo);
     }
 
     public class ZooManagerRepository() : IZooManagerRepository
@@ -92,6 +94,13 @@ namespace WpfZooManager
             _db.Execute(sql, animal);
             sql = "DELETE FROM zoo_animal WHERE animal_id = @Id;";
             _db.Execute(sql, animal);
+        }
+
+        public List<Animal> GetAssociatedAnimals(Zoo zoo)
+        {
+            var sql = "SELECT * FROM animal WHERE Id IN (SELECT animal_id FROM zoo_animal WHERE zoo_id = @Id);";
+            var animals = _db.Query<Animal>(sql, zoo).ToList();
+            return animals;
         }
     }
 
