@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Data.SQLite;
+using Dapper;
 
 
 namespace WpfZooManager
@@ -12,6 +13,8 @@ namespace WpfZooManager
     public partial class MainWindow : Window
     {
         SQLiteConnection sqliteConnection;
+        IDbConnection db;
+
 
         public MainWindow()
         {
@@ -20,27 +23,23 @@ namespace WpfZooManager
             string connectionString = "Data Source=ZooManager.db";
             sqliteConnection = new SQLiteConnection(connectionString);
             sqliteConnection.Open();
+
+            db = new SQLiteConnection("Data Source=ZooManager.db");
+
             ShowZoos();
             ShowAnimals();
-
         }
 
         private void ShowZoos()
         {
             try
             {
-                string query = "SELECT * FROM zoo";
-                SQLiteDataAdapter sqLiteDataAdapter = new SQLiteDataAdapter(query, sqliteConnection);
+                var sql = "SELECT * FROM zoo";
+                var zoos = db.Query<Zoo>(sql).ToList();
 
-                using (sqLiteDataAdapter)
-                {
-                    DataTable zooTable = new DataTable();
-                    sqLiteDataAdapter.Fill(zooTable);
-
-                    listZoos.DisplayMemberPath = "location";
-                    listZoos.SelectedValuePath = "id";
-                    listZoos.ItemsSource = zooTable.DefaultView;
-                }
+                listZoos.DisplayMemberPath = "Location";
+                listZoos.SelectedValuePath = "Id";
+                listZoos.ItemsSource = zoos;
             }
             catch (Exception e)
             {
@@ -111,8 +110,8 @@ namespace WpfZooManager
         {
             if (listZoos.SelectedItem != null)
             {
-                DataRowView selectedRow = (DataRowView)listZoos.SelectedItem;
-                myTextBox.Text = selectedRow["location"].ToString();
+                Zoo selectedZoo = (Zoo)listZoos.SelectedItem;
+                myTextBox.Text = selectedZoo.Location;
             }
             else
             {
