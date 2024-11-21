@@ -124,10 +124,8 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "DELETE FROM zoo WHERE id = ?";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@ZooId", listZoos.SelectedValue);
-                sqliteCommand.ExecuteNonQuery();
+                var zoo = new Zoo { Id = (int)listZoos.SelectedValue };
+                zooManagerRepository.DeleteZoo(zoo);
 
                 string query2 = "DELETE FROM zoo_animal WHERE zoo_id = ?";
                 SQLiteCommand sqliteCommand2 = new SQLiteCommand(query2, sqliteConnection);
@@ -146,10 +144,8 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "DELETE FROM animal WHERE id = ?";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@AnimalId", listAnimals.SelectedValue);
-                sqliteCommand.ExecuteNonQuery();               
+                var animal = new Animal { Id = (int)listAnimals.SelectedValue };
+                zooManagerRepository.DeleteAnimal(animal);         
 
                 string query2 = "DELETE FROM zoo_animal WHERE animal_id = ?";
                 SQLiteCommand sqliteCommand2 = new SQLiteCommand(query2, sqliteConnection);

@@ -17,6 +17,10 @@ namespace WpfZooManager
         public Zoo UpdateZoo(Zoo zoo);
 
         public Animal UpdateAnimal(Animal animal);
+
+        public void DeleteZoo(Zoo zoo);
+
+        public void DeleteAnimal(Animal animal);
     }
 
     public class ZooManagerRepository() : IZooManagerRepository
@@ -74,6 +78,17 @@ namespace WpfZooManager
             return animal;
         }
             
+        public void DeleteZoo(Zoo zoo)
+        {
+            var sql = "DELETE FROM zoo WHERE Id = @Id;";
+            _db.Execute(sql, zoo);
+        }
+        
+        public void DeleteAnimal(Animal animal)
+        {
+            var sql = "DELETE FROM animal WHERE Id = @Id;";
+            _db.Execute(sql, animal);
+        }
     }
 
 }
