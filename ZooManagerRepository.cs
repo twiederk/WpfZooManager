@@ -13,6 +13,10 @@ namespace WpfZooManager
         public Zoo AddZoo(Zoo zoo);
 
         public Animal AddAnimal(Animal animal);
+
+        public Zoo UpdateZoo(Zoo zoo);
+
+        public Animal UpdateAnimal(Animal animal);
     }
 
     public class ZooManagerRepository() : IZooManagerRepository
@@ -53,6 +57,20 @@ namespace WpfZooManager
             var sql = "INSERT INTO animal (Name) VALUES (@Name);";
             var id = _db.Execute(sql, animal);
             animal.Id = id;
+            return animal;
+        }
+
+        public Zoo UpdateZoo(Zoo zoo)
+        {
+            var sql = "UPDATE zoo SET Location = @Location WHERE Id = @Id;";
+            _db.Execute(sql, zoo);
+            return zoo;
+        }
+
+        public Animal UpdateAnimal(Animal animal)
+        {
+            var sql = "UPDATE animal SET Name = @Name WHERE Id = @Id;";
+            _db.Execute(sql, animal);
             return animal;
         }
             

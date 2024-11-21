@@ -235,11 +235,8 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "UPDATE zoo SET location = ? WHERE id = ?";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@location", myTextBox.Text);
-                sqliteCommand.Parameters.AddWithValue("@id", listZoos.SelectedValue);
-                sqliteCommand.ExecuteNonQuery();
+                var zoo = new Zoo { Id = (int)listZoos.SelectedValue, Location = myTextBox.Text };
+                zooManagerRepository.UpdateZoo(zoo);
                 ShowZoos();
             }
             catch (Exception ex)
@@ -252,11 +249,8 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "UPDATE animal SET name = ? WHERE id = ?";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@name", myTextBox.Text);
-                sqliteCommand.Parameters.AddWithValue("@id", listAnimals.SelectedValue);
-                sqliteCommand.ExecuteNonQuery();
+                var animal = new Animal { Id = (int)listAnimals.SelectedValue, Name = myTextBox.Text };
+                zooManagerRepository.UpdateAnimal(animal);
                 ShowAnimals();
             }
             catch (Exception ex)
