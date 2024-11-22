@@ -29,6 +29,8 @@ namespace WpfZooManager
         public List<Animal> GetAssociatedAnimals(Zoo zoo);
 
         public void AddAnimalToZoo(Zoo zoo, Animal animal);
+
+        public void RemoveAnimalFromZoo(Zoo zoo, Animal animal);
     }
 
     public class ZooManagerRepository() : IZooManagerRepository
@@ -112,6 +114,12 @@ namespace WpfZooManager
         public void AddAnimalToZoo(Zoo zoo, Animal animal)
         {
             var sql = "INSERT INTO zoo_animal (zoo_id, animal_id) VALUES (@ZooId, @AnimalId);";
+            _db.Execute(sql, new { ZooId = zoo.Id, AnimalId = animal.Id });
+        }
+
+        public void RemoveAnimalFromZoo(Zoo zoo, Animal animal)
+        {
+            var sql = "DELETE FROM zoo_animal WHERE zoo_id = @ZooId AND animal_id = @AnimalId;";
             _db.Execute(sql, new { ZooId = zoo.Id, AnimalId = animal.Id });
         }
     }

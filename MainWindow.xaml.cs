@@ -170,12 +170,10 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "DELETE FROM zoo_animal WHERE id = ?";
-
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@Id", listAssociatedAnimals.SelectedValue);
-
-                sqliteCommand.ExecuteNonQuery();               
+                zooManagerRepository.RemoveAnimalFromZoo(
+                    new Zoo { Id = (int)listZoos.SelectedValue },
+                    new Animal { Id = (int)listAssociatedAnimals.SelectedValue }
+                );
                 ShowAssociatedAnimals();
             }
             catch (Exception ex)
