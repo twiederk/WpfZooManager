@@ -9,14 +9,12 @@ namespace WpfZooManager
 {
     public partial class MainWindow : Window
     {
-        SQLiteConnection sqliteConnection;
         IZooManagerRepository zooManagerRepository;
 
-        public MainWindow(SQLiteConnection sqliteConnection, IZooManagerRepository zooManagerRepository)
+        public MainWindow(IZooManagerRepository zooManagerRepository)
         {
             InitializeComponent();
 
-            this.sqliteConnection = sqliteConnection;
             this.zooManagerRepository = zooManagerRepository;
 
             ShowZoos();
@@ -168,6 +166,10 @@ namespace WpfZooManager
 
         private void RemoveAnimalFromZoo_Click(object sender, RoutedEventArgs e)
         {
+            if (listZoos.SelectedItem == null || listAnimals.SelectedItems == null)
+            {
+                return;
+            }
             try
             {
                 zooManagerRepository.RemoveAnimalFromZoo(
@@ -184,6 +186,10 @@ namespace WpfZooManager
 
         private void AddAnimalToZoo_Click(object sender, RoutedEventArgs e)
         {
+            if (listZoos.SelectedItem == null || listAnimals.SelectedItems == null)
+            {
+                return;
+            }
             try
             {
                 zooManagerRepository.AddAnimalToZoo(
