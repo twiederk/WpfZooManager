@@ -1,9 +1,7 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Data.SQLite;
+﻿using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace WpfZooManager
 {
@@ -20,12 +18,13 @@ namespace WpfZooManager
 
             collection.AddSingleton<MainWindow>();
 
-            string connectionString = "Data Source=ZooManager.db";
-            SQLiteConnection sqliteConnection = new SQLiteConnection(connectionString);
-            sqliteConnection.Open();
-            collection.AddSingleton(sqliteConnection);
+            string server = Environment.GetEnvironmentVariable("DB_SERVER");
+            string database = Environment.GetEnvironmentVariable("DB_DATABASE");
+            string userId = Environment.GetEnvironmentVariable("DB_USER");
+            string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
 
-            IDbConnection db = new SQLiteConnection("Data Source=ZooManager.db");
+            string connectionString = $"Server=tcp:{server},1433;Initial Catalog={database};Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;User ID={userId};Password={password}";
+            IDbConnection db = new SqlConnection(connectionString);
             collection.AddSingleton(db);
             collection.AddSingleton<IZooManagerRepository, ZooManagerRepository>();
 

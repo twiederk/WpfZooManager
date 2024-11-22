@@ -5,7 +5,7 @@ DROP TABLE zoo;
 
 CREATE TABLE zoo
 (id            INTEGER,
- location      VARCHAR(15),
+ name      VARCHAR(15),
  PRIMARY KEY (id)
 );
 

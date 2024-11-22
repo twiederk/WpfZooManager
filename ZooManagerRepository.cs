@@ -48,6 +48,8 @@ namespace WpfZooManager
 
         public List<Zoo> AllZoos()
         {
+            return _db.GetAll<Zoo>().ToList();
+            /*
             var sql = "Select zoo.*, animal.id as animal_id, animal.name as name FROM zoo, animal, zoo_animal " +
                 "WHERE zoo.id = zoo_animal.zoo_id AND animal.id = zoo_animal.animal_id";
             var zooDic = new Dictionary<int, Zoo>();
@@ -64,6 +66,7 @@ namespace WpfZooManager
             }, splitOn: "animal_id");
 
             return zoo.Distinct().ToList();
+            */
         }
 
         public List<Animal> AllAnimals()
@@ -73,7 +76,7 @@ namespace WpfZooManager
 
         public Zoo AddZoo(Zoo zoo)
         {
-            var sql = "INSERT INTO zoo (Location) VALUES (@Location);";
+            var sql = "INSERT INTO zoo (Name) VALUES (@Name);";
             var id = _db.Execute(sql, zoo);
             zoo.Id = id;
             return zoo;
@@ -88,7 +91,7 @@ namespace WpfZooManager
 
         public Zoo UpdateZoo(Zoo zoo)
         {
-            var sql = "UPDATE zoo SET Location = @Location WHERE Id = @Id;";
+            var sql = "UPDATE zoo SET Name = @Name WHERE Id = @Id;";
             _db.Execute(sql, zoo);
             return zoo;
         }

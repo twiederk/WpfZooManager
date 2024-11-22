@@ -1,8 +1,6 @@
-﻿using System.Data;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Data.SQLite;
-using Dapper;
+using System.Windows.Input;
 
 
 namespace WpfZooManager
@@ -27,7 +25,7 @@ namespace WpfZooManager
             {
                 var zoos = zooManagerRepository.AllZoos();
 
-                listZoos.DisplayMemberPath = "Location";
+                listZoos.DisplayMemberPath = "Name";
                 listZoos.SelectedValuePath = "Id";
                 listZoos.ItemsSource = zoos;
             }
@@ -81,7 +79,7 @@ namespace WpfZooManager
             if (listZoos.SelectedItem != null)
             {
                 Zoo selectedZoo = (Zoo)listZoos.SelectedItem;
-                myTextBox.Text = selectedZoo.Location;
+                myTextBox.Text = selectedZoo.Name;
             }
             else
             {
@@ -139,16 +137,16 @@ namespace WpfZooManager
         {
             try
             {
-                var zoo = new Zoo { Location = myTextBox.Text };
-                zooManagerRepository.AddZoo(zoo);
-                ShowZoos();
+               var zoo = new Zoo { Name = myTextBox.Text };
+               zooManagerRepository.AddZoo(zoo);
+               ShowZoos();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error");
+               MessageBox.Show(ex.Message, "Error");
             }
         }
-    
+
 
         private void AddAnimal_Click(object sender, RoutedEventArgs e)
         {
@@ -184,34 +182,11 @@ namespace WpfZooManager
             }
         }
 
-        private void AddAnimalToZoo_Click(object sender, RoutedEventArgs e)
-        {
-            if (listZoos.SelectedItem == null || listAnimals.SelectedItems == null)
-            {
-                return;
-            }
-            try
-            {
-                zooManagerRepository.AddAnimalToZoo(
-                    new Zoo { Id = (int)listZoos.SelectedValue },
-                    new Animal { Id = (int)listAnimals.SelectedValue }
-                );
-                ShowAssociatedAnimals();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error");
-            }
-        }
-
-
-
-
         private void UpdateZoo_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                var zoo = new Zoo { Id = (int)listZoos.SelectedValue, Location = myTextBox.Text };
+                var zoo = new Zoo { Id = (int)listZoos.SelectedValue, Name = myTextBox.Text };
                 zooManagerRepository.UpdateZoo(zoo);
                 ShowZoos();
             }
@@ -238,6 +213,42 @@ namespace WpfZooManager
         private void NewMenuItem_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("New Menu Item Clicked");
+        }
+
+        private void listAnimals_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                // Get the selected item from listAnimals
+                var selectedItem = listAnimals.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    // Create a DataObject containing the selected item
+                    DataObject dataObject = new DataObject(selectedItem);
+
+                    // Initialize the drag & drop operation
+                    DragDrop.DoDragDrop(listAnimals, dataObject, DragDropEffects.Move);
+                }
+            }
+        }
+
+        private void listAssociatedAnimals_Drop(object sender, DragEventArgs dragEvent)
+        {
+            if (dragEvent.Data.GetDataPresent(typeof(Animal)))
+            {
+                // Get the dropped data
+                Animal droppedAnimal = dragEvent.Data.GetData(typeof(Animal)) as Animal;
+
+                if (droppedAnimal != null)
+                {
+                    zooManagerRepository.AddAnimalToZoo(
+                        new Zoo { Id = (int)listZoos.SelectedValue },
+                        new Animal { Id = droppedAnimal.Id }
+                    );
+                    ShowAssociatedAnimals();
+                }
+            }
         }
     }
 
