@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Sqlite
 sqlite3.exe
+
+# Visual Studio Code
+.vscode
