@@ -27,6 +27,8 @@ namespace WpfZooManager
         public void DeleteAnimal(Animal animal);
 
         public List<Animal> GetAssociatedAnimals(Zoo zoo);
+
+        public void AddAnimalToZoo(Zoo zoo, Animal animal);
     }
 
     public class ZooManagerRepository() : IZooManagerRepository
@@ -105,6 +107,12 @@ namespace WpfZooManager
             var sql = "SELECT * FROM animal WHERE Id IN (SELECT animal_id FROM zoo_animal WHERE zoo_id = @Id);";
             var animals = _db.Query<Animal>(sql, zoo).ToList();
             return animals;
+        }
+
+        public void AddAnimalToZoo(Zoo zoo, Animal animal)
+        {
+            var sql = "INSERT INTO zoo_animal (zoo_id, animal_id) VALUES (@ZooId, @AnimalId);";
+            _db.Execute(sql, new { ZooId = zoo.Id, AnimalId = animal.Id });
         }
     }
 

@@ -188,11 +188,10 @@ namespace WpfZooManager
         {
             try
             {
-                string query = "INSERT INTO zoo_animal (zoo_id, animal_id) VALUES (?, ?)";
-                SQLiteCommand sqliteCommand = new SQLiteCommand(query, sqliteConnection);
-                sqliteCommand.Parameters.AddWithValue("@zoo_id", listZoos.SelectedValue);
-                sqliteCommand.Parameters.AddWithValue("@animal_id", listAnimals.SelectedValue);
-                sqliteCommand.ExecuteNonQuery();
+                zooManagerRepository.AddAnimalToZoo(
+                    new Zoo { Id = (int)listZoos.SelectedValue },
+                    new Animal { Id = (int)listAnimals.SelectedValue }
+                );
                 ShowAssociatedAnimals();
             }
             catch (Exception ex)
