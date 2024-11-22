@@ -11,5 +11,11 @@ namespace WpfZooManager
     {
         public int Id { get; set; }
         public string Location { get; set; }
+        public List<Animal> Animals { get; set; }
+
+        public Zoo()
+        {
+            Animals = new List<Animal>();
+        }
     }
 }

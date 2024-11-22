@@ -46,9 +46,22 @@ namespace WpfZooManager
 
         public List<Zoo> AllZoos()
         {
-            var sql = "SELECT * FROM zoo";
-            var zoos = _db.Query<Zoo>(sql).ToList();
-            return zoos;
+            var sql = "Select zoo.*, animal.id as animal_id, animal.name as name FROM zoo, animal, zoo_animal " +
+                "WHERE zoo.id = zoo_animal.zoo_id AND animal.id = zoo_animal.animal_id";
+            var zooDic = new Dictionary<int, Zoo>();
+
+            var zoo = _db.Query<Zoo, Animal, Zoo>(sql, (zoo, animal) =>
+            {
+                if (!zooDic.TryGetValue(zoo.Id, out var currentZoo))
+                {
+                    currentZoo = zoo;
+                    zooDic.Add(currentZoo.Id, currentZoo);
+                }
+                currentZoo.Animals.Add(animal);
+                return currentZoo;
+            }, splitOn: "animal_id");
+
+            return zoo.Distinct().ToList();
         }
 
         public List<Animal> AllAnimals()
