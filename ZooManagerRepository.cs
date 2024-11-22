@@ -1,13 +1,15 @@
 using System.Data;
 using Dapper;
+using Dapper.Contrib.Extensions;
 
 namespace WpfZooManager
 {
 
     // https://www.dotnetmastery.com/Home/Details?courseId=13
     // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/CompanyRepository.cs
-    // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/CompanyRepositoryContib.cs
     // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/BonusRepository.cs
+    // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/CompanyRepositoryContib.cs
+    // https://github.com/DapperLib/Dapper.Contrib
     public interface IZooManagerRepository
     {
         public List<Zoo> AllZoos();
@@ -66,9 +68,7 @@ namespace WpfZooManager
 
         public List<Animal> AllAnimals()
         {
-            var sql = "SELECT * FROM animal";
-            var animals = _db.Query<Animal>(sql).ToList();
-            return animals;
+            return _db.GetAll<Animal>().ToList();
         }
 
         public Zoo AddZoo(Zoo zoo)
@@ -81,9 +81,8 @@ namespace WpfZooManager
 
         public Animal AddAnimal(Animal animal)
         {
-            var sql = "INSERT INTO animal (Name) VALUES (@Name);";
-            var id = _db.Execute(sql, animal);
-            animal.Id = id;
+            var id = _db.Insert(animal);
+            animal.Id = (int)id;
             return animal;
         }
 
@@ -96,8 +95,7 @@ namespace WpfZooManager
 
         public Animal UpdateAnimal(Animal animal)
         {
-            var sql = "UPDATE animal SET Name = @Name WHERE Id = @Id;";
-            _db.Execute(sql, animal);
+            _db.Update(animal);
             return animal;
         }
             
@@ -111,9 +109,11 @@ namespace WpfZooManager
         
         public void DeleteAnimal(Animal animal)
         {
-            var sql = "DELETE FROM animal WHERE Id = @Id;";
-            _db.Execute(sql, animal);
-            sql = "DELETE FROM zoo_animal WHERE animal_id = @Id;";
+            // Dapper.Contrib
+            _db.Delete(animal);
+
+            // Dapper
+            var sql = "DELETE FROM zoo_animal WHERE animal_id = @Id;";
             _db.Execute(sql, animal);
         }
 

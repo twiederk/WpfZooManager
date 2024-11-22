@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dapper.Contrib.Extensions;
 
 namespace WpfZooManager
 {
@@ -11,6 +7,7 @@ namespace WpfZooManager
     {
         public int Id { get; set; }
         public string Location { get; set; }
+        [Write(false)]
         public List<Animal> Animals { get; set; }
 
         public Zoo()
