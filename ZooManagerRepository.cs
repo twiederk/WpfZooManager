@@ -4,6 +4,10 @@ using Dapper;
 namespace WpfZooManager
 {
 
+    // https://www.dotnetmastery.com/Home/Details?courseId=13
+    // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/CompanyRepository.cs
+    // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/CompanyRepositoryContib.cs
+    // https://github.com/bhrugen/DapperDemo/blob/master/DapperDemo/Repository/BonusRepository.cs
     public interface IZooManagerRepository
     {
         public List<Zoo> AllZoos();
