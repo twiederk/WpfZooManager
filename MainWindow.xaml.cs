@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Data;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -9,16 +12,39 @@ namespace WpfZooManager
     {
         IZooManagerRepository zooManagerRepository;
 
-        public MainWindow(IZooManagerRepository zooManagerRepository)
+        private string connectionString;
+
+        public MainWindow()
         {
             InitializeComponent();
 
-            this.zooManagerRepository = zooManagerRepository;
+            // Show the login window
+            LoginWindow loginWindow = new LoginWindow();
+            if (loginWindow.ShowDialog() == true)
+            {
+                string username = loginWindow.Username;
+                string password = loginWindow.Password;
 
+                // Create the connection string using the provided username and password
+                connectionString = $"Server=tcp:myzoomanager.database.windows.net,1433;Initial Catalog=ZooDB2;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;User ID={username};Password={password}";
+
+                // Initialize the main window with the connection string
+                InitializeMainWindow();
+            }
+            else
+            {
+                // Close the application if the login was not successful
+                Application.Current.Shutdown();
+            }
+        }
+
+        private void InitializeMainWindow()
+        {
+            IDbConnection db = new SqlConnection(connectionString);
+            zooManagerRepository = new ZooManagerRepository(db);
             ShowZoos();
             ShowAnimals();
         }
-
         private void ShowZoos()
         {
             try
